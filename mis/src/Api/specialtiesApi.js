@@ -13,7 +13,6 @@ function specialties(name) {
         }
         return response.json();
     }).then(data => {
-        console.log(data.specialties);
         return data.specialties;
     }).catch(error => {
         console.log(error.message);

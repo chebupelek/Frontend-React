@@ -50,7 +50,7 @@ export function setProfileThunkCreator(data) {
                 if (!data) {
                     return;
                 }
-                return;
+                dispatch(getProfileThunkCreator());
         })
     }
 }

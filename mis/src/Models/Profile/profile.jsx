@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProfileThunkCreator } from '../../Reducers/ProfileReducer';
 import { setProfileThunkCreator } from '../../Reducers/ProfileReducer';
 
-const Profile = () => {
+function Profile(){
     const dispatch = useDispatch();
 
     useEffect(() => {
