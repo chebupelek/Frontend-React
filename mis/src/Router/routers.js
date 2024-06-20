@@ -7,6 +7,7 @@ const routers = {
     specialties: `${base}/api/dictionary/speciality`,
     patients: `${base}/api/patient`,
     mkb: `${base}/api/dictionary/icd10`,
-    mkbRoots: `${base}/api/dictionary/icd10/roots`
+    mkbRoots: `${base}/api/dictionary/icd10/roots`,
+    inspection: `${base}/api/inspection`
 };
 export default routers;

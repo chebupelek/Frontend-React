@@ -61,4 +61,16 @@ export function getInspectionsListThunkCreator(queryParams) {
     }
 }
 
+export function getInspectionsChildsThunkCreator(id) {
+    return (dispatch) => {
+        return inspectionsApi.getInspectionsChilds(id)
+            .then(data => {
+                if (!data) {
+                    return;
+                }
+                return data;
+        })
+    }
+}
+
 export default inspectionsListReducer;

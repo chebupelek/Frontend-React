@@ -43,7 +43,7 @@ function InspectionCard(props) {
                 <span><strong>Основной диагноз - {props.diagnosis.name}</strong></span>
             </div>
             <div>
-                <span>Медецинский работник - {props.doctor}</span>
+                <span>Медицинский работник - {props.doctor}</span>
             </div>
         </Card>
     );

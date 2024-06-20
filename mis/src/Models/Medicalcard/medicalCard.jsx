@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRootsThunkCreator } from "../../Reducers/MkbReducer";
 import { useSearchParams, useParams } from "react-router-dom";
-import { getPatientThunkCreator } from "../../Reducers/PatientReducer";
 import { ManOutlined } from "@ant-design/icons";
 import { WomanOutlined } from "@ant-design/icons";
 import { getInspectionsListThunkCreator } from "../../Reducers/InspectionListReducer";
+import { getPatientThunkCreator } from "../../Reducers/PatientReducer";
 import InspectionCard from "./inspectionCard";
+import InspectionGroupedCard from "./inspectionGroupedCard";
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -20,7 +21,7 @@ function MedicalCard() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const roots = useSelector(state => state.mkb.roots);
-    const pacient = useSelector(state => state.patient.patient);
+    const pacient = useSelector(state => state.patient.patient) || [];
     const inspections = useSelector(state => state.inspectionsList.inspections);
     const pagination = useSelector(state => state.inspectionsList.pagination);
 
@@ -29,21 +30,22 @@ function MedicalCard() {
     const [selectedSize, setSelectedSize] = useState("5");
     const [selectedPage, setSelectedPage] = useState("1");
 
+    const [groupRender, setGroupRender] = useState(false);
+
     const handleRootsChange = (value) => {
         setMkbRoots(value);
     };
 
     const changeGroup = (e) => {
         setGroup(e.target.value);
-      };
+    };
 
     useEffect(() => {
-        dispatch(getRootsThunkCreator());
         dispatch(getPatientThunkCreator(id));
     }, []);
 
     useEffect(() => {
-        const groupParam = searchParams.get('isGrouped') || "";
+        const groupParam = searchParams.get('grouped') || "";
         const mkbRootsParam = searchParams.getAll('root');
         const sizeParam = searchParams.get('size') || 5;
         const pageParam = searchParams.get('page') || 1;
@@ -52,9 +54,10 @@ function MedicalCard() {
         setMkbRoots(mkbRootsParam);
         setSelectedSize(sizeParam);
         setSelectedPage(pageParam);
+        setGroupRender(groupParam === 'true');
 
         const queryParams = [
-            `isGrouped=${group}`,
+            `grouped=${groupParam}`,
             ...mkbRootsParam.map(root => `root=${root}`),
             `page=${pageParam}`,
             `size=${sizeParam}`
@@ -62,11 +65,12 @@ function MedicalCard() {
 
         const inspectionUrl = `${id}/inspections?${queryParams}`;
         dispatch(getInspectionsListThunkCreator(inspectionUrl));
+        dispatch(getRootsThunkCreator());
     }, [searchParams]);
 
     const handleSearch = () => {
         const queryParams = [
-            `isGrouped=${group}`,
+            `grouped=${group}`,
             ...mkbRoots.map(root => `root=${root}`),
             `page=${1}`,
             `size=${selectedSize}`
@@ -140,16 +144,26 @@ function MedicalCard() {
                     </div>
                 </Space>
             </Card>
-            <Row gutter={16} style={{ marginTop: '2%' }}>
+            {inspections ? <div><Row gutter={16} style={{ marginTop: '2%' }}>
                 {inspections.map(inspection => (
                     <Col key={inspection.id} span={24 / (window.innerWidth > 768 ? 2 : 1)}>
-                        <InspectionCard conclusion={inspection.conclusion} createTime={inspection.createTime} diagnosis={inspection.diagnosis} doctor={inspection.doctor} inspectionId={inspection.id}/>
+                        {groupRender ? <InspectionGroupedCard 
+                            isBordered={false}
+                            conclusion={inspection.conclusion} 
+                            createTime={inspection.createTime} 
+                            diagnosis={inspection.diagnosis} 
+                            doctor={inspection.doctor} 
+                            inspectionId={inspection.id} 
+                            hasChain={inspection.hasChain} 
+                            hasNested={inspection.hasNested}
+                            num={1}
+                        /> : <InspectionCard conclusion={inspection.conclusion} createTime={inspection.createTime} diagnosis={inspection.diagnosis} doctor={inspection.doctor} inspectionId={inspection.id}/>}
                     </Col>
                 ))}
             </Row>
             <Row justify="center" style={{ marginTop: '2%' }}>
                 <Pagination current={parseInt(selectedPage)} pageSize={parseInt(1)} total={pagination.count} onChange={page => handleChangePage(page)} showSizeChanger={false} />
-            </Row>
+            </Row></div> : <></>}
         </div>
     );
 }

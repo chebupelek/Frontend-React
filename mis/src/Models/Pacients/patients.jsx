@@ -178,7 +178,7 @@ function Patients() {
                     </div>
                 </Space>
             </Card>
-            <Row gutter={16} style={{ marginTop: '2%' }}>
+            {patients ? <div><Row gutter={16} style={{ marginTop: '2%' }}>
                 {patients.map(patient => (
                     <Col key={patient.id} span={24 / (window.innerWidth > 768 ? 2 : 1)}>
                         <PatientCard name={patient.name} gender={patient.gender} birthday={patient.birthday} patientId={patient.id}/>
@@ -187,7 +187,7 @@ function Patients() {
             </Row>
             <Row justify="center" style={{ marginTop: '2%' }}>
                 <Pagination current={parseInt(selectedPage)} pageSize={parseInt(1)} total={pagination.count} onChange={page => handleChangePage(page)} showSizeChanger={false} />
-            </Row>
+            </Row></div> : <></>}
             <Modal open={isModalVisible} onCancel={handleCancel} closeIcon={false} footer={[<Button key="submit" type="primary" onClick={handleAddNewPacient} block style={{backgroundColor: "#317cb9"}}>Зарегистрировать</Button>]}>
                 <Space direction="vertical" size={"middle"} style={{width: "100%"}}>
                 <h1>Регистрация нового пациента</h1>
