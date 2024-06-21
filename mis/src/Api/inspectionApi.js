@@ -42,7 +42,29 @@ function getInspectionsChilds(id){
     });
 }
 
+function getPrevInspectionsList(pacientId, request){
+    return fetch(routers.patients+`${pacientId}/inspections/search?request=${request}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+    }).then(response => {
+        if(!response.ok){
+            alert(response);
+            return null;
+        }
+        return response.json();
+    }).then(data =>{
+        return data;
+    }).catch(error=>{
+        console.log(error.message);
+        return null;
+    });
+}
+
 export const inspectionsApi = {
     getInspectionsList : getInspectionsList,
-    getInspectionsChilds : getInspectionsChilds
+    getInspectionsChilds : getInspectionsChilds,
+    getPrevInspectionsList : getPrevInspectionsList
 }

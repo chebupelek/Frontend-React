@@ -21,7 +21,7 @@ function MedicalCard() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const roots = useSelector(state => state.mkb.roots);
-    const pacient = useSelector(state => state.patient.patient) || [];
+    const pacient = useSelector(state => state.patient.patient);
     const inspections = useSelector(state => state.inspectionsList.inspections);
     const pagination = useSelector(state => state.inspectionsList.pagination);
 
@@ -146,7 +146,7 @@ function MedicalCard() {
             </Card>
             {inspections ? <div><Row gutter={16} style={{ marginTop: '2%' }}>
                 {inspections.map(inspection => (
-                    <Col key={inspection.id} span={24 / (window.innerWidth > 768 ? 2 : 1)}>
+                    <Col key={inspection.id} span={24 / (window.innerWidth > 1200 ? 2 : 1)}>
                         {groupRender ? <InspectionGroupedCard 
                             isBordered={false}
                             conclusion={inspection.conclusion} 
@@ -157,7 +157,7 @@ function MedicalCard() {
                             hasChain={inspection.hasChain} 
                             hasNested={inspection.hasNested}
                             num={1}
-                        /> : <InspectionCard conclusion={inspection.conclusion} createTime={inspection.createTime} diagnosis={inspection.diagnosis} doctor={inspection.doctor} inspectionId={inspection.id}/>}
+                        /> : <InspectionCard conclusion={inspection.conclusion} createTime={inspection.createTime} diagnosis={inspection.diagnosis} doctor={inspection.doctor} inspectionId={inspection.id} hasNested={inspection.hasNested}/>}
                     </Col>
                 ))}
             </Row>

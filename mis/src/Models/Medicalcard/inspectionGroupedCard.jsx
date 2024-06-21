@@ -1,5 +1,5 @@
 import { Card, Col, Row, Button, Space } from "antd";
-import { FormOutlined, SearchOutlined, PlusOutlined, MinusOutlined, RightOutlined  } from "@ant-design/icons";
+import { FormOutlined, SearchOutlined, PlusOutlined, MinusOutlined, DownOutlined   } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { getInspectionsChildsThunkCreator } from "../../Reducers/InspectionListReducer";
 import { useDispatch } from "react-redux";
@@ -17,10 +17,15 @@ const translateConclusion = (conclusion) => {
     }
 };
 
-function formatDate(dateString) {
+const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU');
-}
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}.${month}.${year} ${hours}:${minutes}`;
+};
 
 function InspectionGroupedCard(props) {
     const dispatch = useDispatch();
@@ -61,7 +66,7 @@ function InspectionGroupedCard(props) {
                 </Col>
                 <Col>
                     <Space direction="horizontal" size="small">
-                        {props.conclusion !== 'Death' && (<Button type="link" style={{ color: "#317dba" }}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
+                        {props.conclusion !== 'Death' && !props.hasNested && (<Button type="link" style={{ color: "#317dba" }}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
                         <Button type="link" style={{ color: "#317dba" }}><strong><SearchOutlined /> Детали осмотра</strong></Button>
                     </Space>
                 </Col>
@@ -77,11 +82,8 @@ function InspectionGroupedCard(props) {
             </div>
             {childs && childs[0] && isOpen ? (
                 <Row>
-                    <Col>
-                        {props.num <= 3 ? <RightOutlined /> : <></>}
-                    </Col>
-                    <Col>
-                        <InspectionGroupedCard
+                    {props.num <= 3 ? <DownOutlined  /> : <></>}
+                    <InspectionGroupedCard
                             isBordered={true}
                             conclusion={childs[0].conclusion}
                             createTime={childs[0].createTime}
@@ -93,7 +95,6 @@ function InspectionGroupedCard(props) {
                             childList={childs.slice(1)}
                             num={props.num + 1}
                         />
-                    </Col>
                 </Row>
             ) : null}
         </Card>

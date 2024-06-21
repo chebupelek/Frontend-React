@@ -31,7 +31,7 @@ function InspectionCard(props) {
                 </Col>
                 <Col>
                     <Space direction="horizontal" size="small">
-                        {props.conclusion !== 'Death' && (<Button type="link" style={{ color: "#317dba" }}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
+                        {props.conclusion !== 'Death' && !props.hasNested && (<Button type="link" style={{ color: "#317dba" }}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
                         <Button type="link" style={{ color: "#317dba" }}><strong><SearchOutlined /> Детали осмотра</strong></Button>
                     </Space>
                 </Col>
