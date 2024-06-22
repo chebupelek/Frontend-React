@@ -9,6 +9,8 @@ import ReInxpection from "./reInspection";
 import Complaints from "./complaints";
 import Anamnesis from "./anamnesis";
 import AddConsultation from "./addConsultation";
+import CreateDiagnosis from "./createDiagnosis";
+import Treatment from "./treatment"
 
 function CreateInspection(){
     const dispatch = useDispatch();
@@ -30,6 +32,8 @@ function CreateInspection(){
                 <Complaints/>
                 <Anamnesis/>
                 <AddConsultation/>
+                <CreateDiagnosis/>
+                <Treatment/>
             </Space>
         </div>
     );

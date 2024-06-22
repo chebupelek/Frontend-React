@@ -8,6 +8,8 @@ const SET_NEW_INSPECTION_COMPLAINTS = "SET_NEW_INSPECTION_COMPLAINTS";
 const SET_NEW_INSPECTION_ANAMNESIS = "SET_NEW_INSPECTION_ANAMNESIS";
 const SET_NEED_CONSULTATION = "SET_NEED_CONSULTATION";
 const SET_CONSULTATION = "SET_CONSULTATION";
+const SET_DIAGNOSIS = "SET_DIAGNOSIS";
+const SET_NEW_INSPECTION_TREATMENT = "SET_NEW_INSPECTION_TREATMENT";
 
 let initialCreateInspectionState = {
     prevInspectionData: {
@@ -32,7 +34,12 @@ let initialCreateInspectionState = {
             status : true
         },
         needConsultation: false,
-        consultations: []
+        consultations: [],
+        diagnosis: [],
+        treatment: {
+            data : "",
+            status : true
+        }
     },
     prevInspectionsList: [
         {
@@ -85,6 +92,13 @@ const createInspectionReducer = (state = initialCreateInspectionState, action) =
         case SET_CONSULTATION:
             newState.newInspectionData.consultations.push(action.consultation);
             return newState;
+        case SET_DIAGNOSIS:
+            newState.newInspectionData.diagnosis.push(action.diagnosis);
+            return newState;
+        case SET_NEW_INSPECTION_TREATMENT:
+            newState.newInspectionData.treatment.data = action.data;
+            newState.newInspectionData.treatment.status = true;
+            return newState;
         default:
             return newState;
     }
@@ -115,11 +129,19 @@ export function setNewInspectionAnamnesisActionCreator(data){
 }
 
 export function setNeedConsultationActionCreator(data){
-    return {type: SET_CONSULTATION, data: data}
+    return {type: SET_NEED_CONSULTATION, data: data}
 }
 
 export function setConsultationActionCreator(data){
-    return {type: SET_NEED_CONSULTATION, consultation: data}
+    return {type: SET_CONSULTATION, consultation: data}
+}
+
+export function setDiagnosisActionCreator(data){
+    return {type: SET_DIAGNOSIS, diagnosis: data}
+}
+
+export function setNewInspectionTreatmentActionCreator(data){
+    return {type: SET_NEW_INSPECTION_TREATMENT, data: data}
 }
 
 export function setPrevInspectionsListThunkCreator(pacientId, request) {
