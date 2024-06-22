@@ -2,7 +2,6 @@ import { Card, Typography } from "antd";
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useState } from "react";
 
-import { setNeedConsultationActionCreator } from "../../Reducers/CreateInspectionReducer";
 import { getDiagnosisThunkCreator } from "../../Reducers/MkbReducer";
 
 import Consultations from "./consultations";
