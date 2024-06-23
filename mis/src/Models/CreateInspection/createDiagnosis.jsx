@@ -1,12 +1,14 @@
-import { Card, Typography } from "antd";
+import { Card, Typography, Space, Select, Input, Radio, Button } from "antd";
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useState } from "react";
 
 import { getDiagnosisThunkCreator } from "../../Reducers/MkbReducer";
 
-import Consultations from "./consultations";
+import { setDiagnosisActionCreator } from "../../Reducers/CreateInspectionReducer";
 
-function AddConsultation(){
+import DiagnosisCard from "./diagnosisCard";
+
+function AddDiagnosis(){
     const dispatch = useDispatch();
 
     const diagnosis = useSelector(state => state.mkb.diagnosis);
@@ -26,12 +28,26 @@ function AddConsultation(){
 
     const [type, setType] = useState('');
 
+    const handleCreateDiagnosis = () => {
+        const diagnosis = {
+            id: selectedDiagnosis.id,
+            code: selectedDiagnosis.code,
+            name: selectedDiagnosis.name,
+            description: description,
+            type: type
+        };
+        setSelectedDiagnosis(null);
+        setDescription('');
+        setType('');
+        dispatch(setDiagnosisActionCreator(diagnosis));
+    };
+
     return (
         <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: '#f6f6fb' }}>
             <Typography.Title level={4} style={{color: "#1a3f76"}}>Диагнозы</Typography.Title>
             <Space direction="vertical" size="middle">
-                <ConsultationCard/>
-                <Select style={{ width: '100%' }} showSearch value={{value: selectedDiagnosis.id, label: `${selectedDiagnosis.code} - ${selectedDiagnosis.name}`}} labelInValue defaultActiveFirstOption={false} filterOption={false} onSearch={handleDiagnosisSearch} onChange={handleDiagnosisChange} notFoundContent={null} placeholder={"Специализация консультанта"} options={(diagnosis || []).map((d) => ({
+                <DiagnosisCard/>
+                <Select style={{ width: '100%' }} showSearch value={selectedDiagnosis ? {value: selectedDiagnosis.id, label: `${selectedDiagnosis.code} - ${selectedDiagnosis.name}`} : null} labelInValue defaultActiveFirstOption={false} filterOption={false} onSearch={handleDiagnosisSearch} onChange={handleDiagnosisChange} notFoundContent={null} placeholder={"Специализация консультанта"} options={(diagnosis || []).map((d) => ({
                     value: d.id,
                     label: {code: d.code, name: d.name},
                 }))}/>
@@ -41,10 +57,10 @@ function AddConsultation(){
                     <Radio value={"Concomitant"}>Сопутсствующий</Radio>
                     <Radio value={"Complication"}>Осложнение</Radio>
                 </Radio.Group>
-                <Button type="primary" disabled={!selectedSpec || !comment} onClick={handleAddConsultation}>Добавить консультацию</Button>
+                <Button type="primary" disabled={!selectedDiagnosis || !description || !type} onClick={handleCreateDiagnosis}>Добавить диагноз</Button>
             </Space>
         </Card>
     );
 }
 
-export default AddConsultation;
+export default AddDiagnosis;

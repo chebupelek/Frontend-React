@@ -1,17 +1,16 @@
-import { Button, Col, Row, Card, Select, Space, Pagination, Radio, Typography, DatePicker } from "antd";
-import { useState, useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Button, Card, Space, Typography } from "antd";
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-
-import { setNewInspectionAnamnesisActionCreator } from "../../Reducers/CreateInspectionReducer";
 
 import ReInxpection from "./reInspection";
 import Complaints from "./complaints";
 import Anamnesis from "./anamnesis";
 import AddConsultation from "./addConsultation";
+import AddDiagnosis from "./createDiagnosis";
+import Conclusion from "./conclusion";
 
 function CreateInspection(){
-    const dispatch = useDispatch();
     const navigate = useNavigate;
 
     const pacient = useSelector(state => state.patient.patient);
@@ -24,12 +23,22 @@ function CreateInspection(){
 
     return (
         <div style={{ width: '75%' }}>
-            <Space direction="vertical" size="middle">
+            <Space direction="vertical" size="middle" style={{width: "100%"}}>
                 <Typography.Title>Создание осмотра</Typography.Title>
                 <ReInxpection/>
                 <Complaints/>
                 <Anamnesis/>
                 <AddConsultation/>
+                <AddDiagnosis/>
+                <Conclusion/>
+
+                <Card style={{ width: '100%', boxSizing: 'border-box', alignContent: 'center', justifyContent: 'center'}}>
+                    <Space direction="horizontal" size="middle">
+                        <Button type="primary" >Добавnlk;pить диагноз</Button>
+                        <Button type="primary" >mkl; диагноз</Button>
+                    </Space>
+                </Card>
+
             </Space>
         </div>
     );

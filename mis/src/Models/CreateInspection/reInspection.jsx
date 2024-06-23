@@ -1,12 +1,11 @@
-import { Row, Card, Select, Space, Typography, DatePicker } from "antd";
-import { useCallback } from 'react';
+import { Row, Card, Select, Space, Typography, DatePicker, Switch } from "antd";
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ManOutlined } from "@ant-design/icons";
-import { WomanOutlined } from "@ant-design/icons";
+import { ManOutlined, WomanOutlined } from "@ant-design/icons";
 
 import { setPrevInspectionsListThunkCreator, setIsAgainActionCreator, setPrevInspectionActionCreator, setNewInspectionDateActionCreator } from "../../Reducers/CreateInspectionReducer";
 
-function ReInxpection(){
+function ReInxpection() {
     const dispatch = useDispatch();
 
     const pacient = useSelector(state => state.patient.patient);
@@ -20,9 +19,9 @@ function ReInxpection(){
     const prevInspectionList = useSelector(state => state.createInspection.prevInspectionsList);
     const handlePrevInspectionSearch = useCallback((value) => {
         dispatch(setPrevInspectionsListThunkCreator(pacient.id, value));
-    }, [dispatch]);
-    const handlePrevInspectionChange = (value) => {
-        dispatch(setPrevInspectionActionCreator(value.value, value.label.date, value.label.code, value.label.name));
+    }, [dispatch, pacient.id]);
+    const handlePrevInspectionChange = (value, label) => {
+        dispatch(setPrevInspectionActionCreator(value, label));
     };
 
     const inspectionDate = useSelector(state => state.createInspection.newInspectionData.inspectionDate);
@@ -48,49 +47,74 @@ function ReInxpection(){
         return `${day}.${month}.${year} ${hours}:${minutes}`;
     };
 
+    useEffect(() => {
+    }, [isAgain, prevInspection, inspectionDate]);
+
+    const selectStyles = {
+        width: '100%',
+    };
+
+    const dropdownStyles = {
+        maxWidth: 'calc(100% - 16px)',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+    };
+
+    const itemOptionStyles = {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+    };
+
     return (
-        <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: '#f6f6fb' }}>
+        <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: '#f6f6fb', position: 'relative', overflow: 'hidden' }}>
             <Row align="middle">
-                <Typography.Title level={2}>{pacient.name}{pacient.gender === "Male" ? <ManOutlined/> : <WomanOutlined/>}</Typography.Title>
-                <Typography.Text strong style={{marginLeft: "auto"}}>Дата рождения - {birthdate(pacient.birthday)}</Typography.Text>
+                <Typography.Title level={2}>{pacient.name}{pacient.gender === "Male" ? <ManOutlined /> : <WomanOutlined />}</Typography.Title>
+                <Typography.Text strong style={{ marginLeft: "auto" }}>Дата рождения - {birthdate(pacient.birthday)}</Typography.Text>
             </Row>
-            <Space direction="horizontal" size="middle">
-                <Typography.Text style={{color: !isAgain ? "#1c79b9" : "black"}}>Первичный осмотр</Typography.Text>
-                <Switch checked={isAgain} onChange={(checked) => handleIsAgain(checked)}/>
-                <Typography.Text style={{color: isAgain ? "#1c79b9" : "black"}}>Повторный осмотр</Typography.Text>
-            </Space>
-            <Space direction="vertical" size="middle">
-                {isAgain ? 
+            <Space direction="vertical">
+                <Space direction="horizontal" size="middle">
+                    <Typography.Text style={{ color: !isAgain ? "#1c79b9" : "black" }}>Первичный осмотр</Typography.Text>
+                    <Switch checked={isAgain} onChange={(checked) => handleIsAgain(checked)} />
+                    <Typography.Text style={{ color: isAgain ? "#1c79b9" : "black" }}>Повторный осмотр</Typography.Text>
+                </Space>
+                <Space direction="vertical" size="middle">
+                    {isAgain ?
+                        <div>
+                            <Space direction="vertical">
+                                <Typography.Text>Предыдущий осмотр</Typography.Text>
+                                <Select
+                                    status={!prevInspection.prevInspectionStatus ? "error" : ""}
+                                    style={{ width: '100%' }}
+                                    showSearch
+                                    value={prevInspection.previousInspectionLabel}
+                                    defaultActiveFirstOption={false}
+                                    filterOption={false}
+                                    onSearch={handlePrevInspectionSearch}
+                                    onChange={(value, option) => handlePrevInspectionChange(value, option.label)}
+                                    notFoundContent={null}
+                                    placeholder={prevInspection.prevInspectionName}
+                                    getPopupContainer={triggerNode => triggerNode.parentNode}
+                                >
+                                    {(prevInspectionList || []).map((d) => (
+                                        <Select.Option key={d.id} value={d.id} style={{ ...itemOptionStyles }}>{`${formatDate(d.date)} ${d.diagnosis.code}-${d.diagnosis.name}`}</Select.Option>
+                                    ))}
+                                </Select>
+                            </Space>
+                        </div> : <></>
+                    }
                     <div>
-                        <Typography.Text>Предыдущий осмотр</Typography.Text>
-                        <Select
-                            status={!prevInspection.prevInspectionStatus ? "error" : ""}
-                            style={{width: "50%"}}
-                            showSearch
-                            value={{ value: prevInspection.previousInspectionId, label: `${formatDate(prevInspection.previousInspectionDate)} ${prevInspection.previousInspectionCode}-${prevInspection.previousInspectionName}` }}
-                            labelInValue
-                            defaultActiveFirstOption={false}
-                            filterOption={false}
-                            onSearch={handlePrevInspectionSearch}
-                            onChange={handlePrevInspectionChange}
-                            notFoundContent={null}
-                            options={(prevInspectionList || []).map((d) => ({
-                                value: d.id,
-                                label: { date: d.diagnosis.date, code: d.diagnosis.code, name: d.diagnosis.name },
-                            }))}
+                        <Typography.Text>Дата осмотра</Typography.Text>
+                        <DatePicker
+                            status={!inspectionDate.status ? "error" : ""}
+                            style={{ width: "50%" }}
+                            value={inspectionDate.data ? inspectionDate.data : null}
+                            onChange={value => handleSetNewInspectionDate(value)}
+                            placeholder="Выберите дату"
                         />
-                    </div> : <></>
-                }
-                <div>
-                    <Typography.Text>Дата осмотра</Typography.Text>
-                    <DatePicker 
-                        status={!inspectionDate.status ? "error" : ""} 
-                        style={{width: "50%"}} 
-                        value={inspectionDate.data} 
-                        onChange={value => handleSetNewInspectionDate(value)} 
-                        placeholder="Выберите дату"
-                    />
-                </div>
+                    </div>
+                </Space>
             </Space>
         </Card>
     );

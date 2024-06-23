@@ -1,25 +1,38 @@
 import { Card, Col, Row, Button, Space } from "antd";
 import { FormOutlined, SearchOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 
-const translateConclusion = (conclusion) => {
-    switch (conclusion) {
-        case "Death":
-            return "Смерть";
-        case "Disease":
-            return "Болезнь";
-        case "Recovery":
-            return "Выздоравливание";
-        default:
-            return conclusion;
-    }
-};
-
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU');
-}
+import { setPrevInspectionActionCreator } from "../../Reducers/CreateInspectionReducer";
 
 function InspectionCard(props) {
+    const dispatch = useDispatch();
+
+    const translateConclusion = (conclusion) => {
+        switch (conclusion) {
+            case "Death":
+                return "Смерть";
+            case "Disease":
+                return "Болезнь";
+            case "Recovery":
+                return "Выздоравливание";
+            default:
+                return conclusion;
+        }
+    };
+    
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ru-RU');
+    }
+
+    const navigate = useNavigate;
+
+    const handleInspectionChildCreate = () => {
+        dispatch(setPrevInspectionActionCreator(props.inspectionId, props.createTime, props.diagnosis.code, props.diagnosis.name));
+        navigate('/inspection/create');
+    }
+
     return (
         <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: props.conclusion !== 'Death' ? '#f6f6fb' : '#ffefe8', marginTop: '1%'}}>
             <Row justify="space-between" align="middle">
@@ -31,7 +44,7 @@ function InspectionCard(props) {
                 </Col>
                 <Col>
                     <Space direction="horizontal" size="small">
-                        {props.conclusion !== 'Death' && !props.hasNested && (<Button type="link" style={{ color: "#317dba" }}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
+                        {props.conclusion !== 'Death' && !props.hasNested && (<Button type="link" style={{ color: "#317dba" }} onClick={handleInspectionChildCreate}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
                         <Button type="link" style={{ color: "#317dba" }}><strong><SearchOutlined /> Детали осмотра</strong></Button>
                     </Space>
                 </Col>

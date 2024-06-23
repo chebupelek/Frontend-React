@@ -3,39 +3,42 @@ import { FormOutlined, SearchOutlined, PlusOutlined, MinusOutlined, DownOutlined
 import { useEffect, useState } from "react";
 import { getInspectionsChildsThunkCreator } from "../../Reducers/InspectionListReducer";
 import { useDispatch } from "react-redux";
-
-const translateConclusion = (conclusion) => {
-    switch (conclusion) {
-        case "Death":
-            return "Смерть";
-        case "Disease":
-            return "Болезнь";
-        case "Recovery":
-            return "Выздоравливание";
-        default:
-            return conclusion;
-    }
-};
-
-const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${day}.${month}.${year} ${hours}:${minutes}`;
-};
+import { useNavigate } from "react-router-dom";
+import { setPrevInspectionActionCreator } from "../../Reducers/CreateInspectionReducer";
 
 function InspectionGroupedCard(props) {
     const dispatch = useDispatch();
+
+    const translateConclusion = (conclusion) => {
+        switch (conclusion) {
+            case "Death":
+                return "Смерть";
+            case "Disease":
+                return "Болезнь";
+            case "Recovery":
+                return "Выздоравливание";
+            default:
+                return conclusion;
+        }
+    };
+    
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${day}.${month}.${year} ${hours}:${minutes}`;
+    };
+    
 
     const [childs, setChilds] = useState();
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         props.hasChain ? handleLoadChild() : setChilds(props.childList);
-    }, []);
+    }, [props.hasChain, props.childList]);
 
     useEffect(() => {
         
@@ -54,6 +57,13 @@ function InspectionGroupedCard(props) {
         setIsOpen(!isOpen);
     }
 
+    const navigate = useNavigate;
+
+    const handleInspectionChildCreate = () => {
+        dispatch(setPrevInspectionActionCreator(props.inspectionId, props.createTime, props.diagnosis.code, props.diagnosis.name));
+        navigate('/inspection/create');
+    }
+
     return (
         <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: props.conclusion !== 'Death' ? '#f6f6fb' : '#ffefe8', marginTop: '1%', border: props.isBordered ? "1px solid #dcdcdc" : "none"}}>
             <Row justify="space-between" align="middle">
@@ -66,7 +76,7 @@ function InspectionGroupedCard(props) {
                 </Col>
                 <Col>
                     <Space direction="horizontal" size="small">
-                        {props.conclusion !== 'Death' && !props.hasNested && (<Button type="link" style={{ color: "#317dba" }}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
+                        {props.conclusion !== 'Death' && !props.hasNested && (<Button type="link" style={{ color: "#317dba" }} onClick={handleInspectionChildCreate}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
                         <Button type="link" style={{ color: "#317dba" }}><strong><SearchOutlined /> Детали осмотра</strong></Button>
                     </Space>
                 </Col>

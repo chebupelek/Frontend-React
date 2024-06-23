@@ -1,4 +1,4 @@
-import { Card, Typography } from "antd";
+import { Card, Typography, Switch } from "antd";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setNeedConsultationActionCreator } from "../../Reducers/CreateInspectionReducer";

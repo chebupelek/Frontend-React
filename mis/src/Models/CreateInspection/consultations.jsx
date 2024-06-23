@@ -1,6 +1,6 @@
-import { Button, Card, Select, Space, Typography } from "antd";
+import { Button, Card, Select, Space, Typography, Input } from "antd";
 import { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { setConsultationActionCreator } from "../../Reducers/CreateInspectionReducer";
 import { getSpecsThunkCreator } from '../../Reducers/SpecialtiesReducer';

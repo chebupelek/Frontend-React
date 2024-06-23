@@ -9,6 +9,7 @@ import { getInspectionsListThunkCreator } from "../../Reducers/InspectionListRed
 import { getPatientThunkCreator } from "../../Reducers/PatientReducer";
 import InspectionCard from "./inspectionCard";
 import InspectionGroupedCard from "./inspectionGroupedCard";
+import { useNavigate } from "react-router-dom";
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -17,6 +18,7 @@ function formatDate(dateString) {
 
 function MedicalCard() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { id } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -42,7 +44,7 @@ function MedicalCard() {
 
     useEffect(() => {
         dispatch(getPatientThunkCreator(id));
-    }, []);
+    }, [dispatch, id]);
 
     useEffect(() => {
         const groupParam = searchParams.get('grouped') || "";
@@ -66,7 +68,7 @@ function MedicalCard() {
         const inspectionUrl = `${id}/inspections?${queryParams}`;
         dispatch(getInspectionsListThunkCreator(inspectionUrl));
         dispatch(getRootsThunkCreator());
-    }, [searchParams]);
+    }, [searchParams, dispatch, id]);
 
     const handleSearch = () => {
         const queryParams = [
@@ -84,12 +86,15 @@ function MedicalCard() {
         searchParams.set('page', page.toString());
         setSearchParams(searchParams);
     };
+    const handleInspectionCreate = () => {
+        navigate('/inspection/create');
+    }
 
     return (
         <div style={{ width: '75%' }}>
             <Row align="middle">
                 <h1>Медицинская карта пациента</h1>
-                <Button type="primary" style={{ backgroundColor: '#317dba', marginLeft: 'auto' }}>
+                <Button type="primary" style={{ backgroundColor: '#317dba', marginLeft: 'auto' }} onClick={handleInspectionCreate}>
                     Добавить осмотр
                 </Button>
             </Row>
@@ -150,14 +155,14 @@ function MedicalCard() {
                         {groupRender ? <InspectionGroupedCard 
                             isBordered={false}
                             conclusion={inspection.conclusion} 
-                            createTime={inspection.createTime} 
+                            createTime={inspection.date} 
                             diagnosis={inspection.diagnosis} 
                             doctor={inspection.doctor} 
                             inspectionId={inspection.id} 
                             hasChain={inspection.hasChain} 
                             hasNested={inspection.hasNested}
                             num={1}
-                        /> : <InspectionCard conclusion={inspection.conclusion} createTime={inspection.createTime} diagnosis={inspection.diagnosis} doctor={inspection.doctor} inspectionId={inspection.id} hasNested={inspection.hasNested}/>}
+                        /> : <InspectionCard conclusion={inspection.conclusion} createTime={inspection.date} diagnosis={inspection.diagnosis} doctor={inspection.doctor} inspectionId={inspection.id} hasNested={inspection.hasNested}/>}
                     </Col>
                 ))}
             </Row>

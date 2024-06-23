@@ -49,7 +49,7 @@ function Patients() {
             `size=${sizeParam}`
         ].filter(Boolean).join('&');
         dispatch(getPatientsListThunkCreator(queryParams));
-    }, [searchParams]);
+    }, [searchParams, dispatch]);
 
     const handleSearch = () => {
         const queryParams = [

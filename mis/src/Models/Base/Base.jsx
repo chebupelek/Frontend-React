@@ -6,6 +6,7 @@ import Registration from '../Registration/registration';
 import Profile from '../Profile/profile';
 import Patients from '../Pacients/patients';
 import MedicalCard from '../Medicalcard/medicalCard';
+import CreateInspection from '../CreateInspection/createInspection';
 
 
 function Base(){
@@ -18,6 +19,7 @@ function Base(){
                 <Route path="/profile" element={<Profile/>} />
                 <Route path="/patients" element={<Patients/>} />
                 <Route path="/patient/:id" element={<MedicalCard/>}/> 
+                <Route path='/inspection/create' element={<CreateInspection/>}/>
             </Routes>
         </Layout.Content>
     )

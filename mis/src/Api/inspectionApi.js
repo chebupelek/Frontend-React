@@ -43,7 +43,7 @@ function getInspectionsChilds(id){
 }
 
 function getPrevInspectionsList(pacientId, request){
-    return fetch(routers.patients+`${pacientId}/inspections/search?request=${request}`, {
+    return fetch(routers.patients+`/${pacientId}/inspections/search?request=${request}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

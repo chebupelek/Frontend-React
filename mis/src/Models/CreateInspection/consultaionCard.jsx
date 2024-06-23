@@ -10,7 +10,7 @@ function ConsultationCard(){
             {consultations ? 
                 <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: '#f6f6fb' }}>
                     <Space direction="vertical" size="middle">
-                        {consultations.map(consultation, index => (
+                        {consultations.map((consultation, index) => (
                             <Col key={index}>
                                 <Typography.Text>Специализация консультанта - {consultation.specialtyName}</Typography.Text>
                                 <Typography.Text>{consultation.comment}</Typography.Text>

@@ -8,19 +8,21 @@ const SET_NEW_INSPECTION_COMPLAINTS = "SET_NEW_INSPECTION_COMPLAINTS";
 const SET_NEW_INSPECTION_ANAMNESIS = "SET_NEW_INSPECTION_ANAMNESIS";
 const SET_NEED_CONSULTATION = "SET_NEED_CONSULTATION";
 const SET_CONSULTATION = "SET_CONSULTATION";
+const SET_DIAGNOSIS = "SET_DIAGNOSIS";
+const SET_CONCLUSION = "SET_CONCLUSION";
+const SET_NEXT_VISIT_DATE = "SET_NEXT_VISIT_DATE";
+const SET_DEATH_DATE = "SET_DEATH_DATE";
 
 let initialCreateInspectionState = {
     prevInspectionData: {
         isAgain: false,
         previousInspectionId: "",
-        previousInspectionDate: Date(),
-        previousInspectionCode: "",
         previousInspectionName: "",
         prevInspectionStatus: true
     },
     newInspectionData: {
         inspectionDate: {
-            data : Date(),
+            data : null,
             status : true
         },
         complaints: {
@@ -32,16 +34,20 @@ let initialCreateInspectionState = {
             status : true
         },
         needConsultation: false,
-        consultations: []
+        consultations: [],
+        diagnosis: [],
+        conclusion: "Disease",
+        nextVisitDate: null,
+        deathDate: null
     },
     prevInspectionsList: [
         {
             id: "",
-            createTime: Date(),
-            date: Date(),
+            createTime: null,
+            date: null,
             diagnosis: {
                 id: "",
-                createTime: Date(),
+                createTime: null,
                 code: "",
                 name: "",
                 description: "",
@@ -57,10 +63,11 @@ const createInspectionReducer = (state = initialCreateInspectionState, action) =
         case SET_PEVIOUS_ISPECTION:
             newState.prevInspectionData.isAgain = true;
             newState.prevInspectionData.previousInspectionId = action.previousInspectionId;
-            newState.prevInspectionData.previousInspectionDate = action.previousInspectionDate;
-            newState.prevInspectionData.previousInspectionCode = action.previousInspectionCode;
             newState.prevInspectionData.previousInspectionName = action.previousInspectionName;
+            console.log(newState.prevInspectionData.previousInspectionId);
+            console.log(newState.prevInspectionData.previousInspectionName);
             newState.prevInspectionData.prevInspectionStatus = true;
+            return newState;
         case SET_ISAGAIN:
             newState.prevInspectionData.isAgain = action.isAgain;
             return newState;
@@ -85,6 +92,18 @@ const createInspectionReducer = (state = initialCreateInspectionState, action) =
         case SET_CONSULTATION:
             newState.newInspectionData.consultations.push(action.consultation);
             return newState;
+        case SET_DIAGNOSIS:
+            newState.newInspectionData.diagnosis.push(action.diagnosis);
+            return newState;
+        case SET_CONCLUSION:
+            newState.newInspectionData.conclusion = action.data;
+            return newState;
+        case SET_NEXT_VISIT_DATE:
+            newState.newInspectionData.nextVisitDate = action.nextVisitDate;
+            return newState;
+        case SET_DEATH_DATE:
+            newState.newInspectionData.deathDate = action.deathDate;
+            return newState;
         default:
             return newState;
     }
@@ -94,8 +113,8 @@ export function setIsAgainActionCreator(isAgain){
     return {type: SET_ISAGAIN, isAgain: isAgain}
 }
 
-export function setPrevInspectionActionCreator(id, date, code, name){
-    return {type: SET_PEVIOUS_ISPECTION, previousInspectionId: id, previousInspectionDate: date, previousInspectionCode: code, previousInspectionName: name}
+export function setPrevInspectionActionCreator(id, name){
+    return {type: SET_PEVIOUS_ISPECTION, previousInspectionId: id, previousInspectionName: name}
 }
 
 export function setPrevInspectionsListActionCreator(data){
@@ -120,6 +139,22 @@ export function setNeedConsultationActionCreator(data){
 
 export function setConsultationActionCreator(data){
     return {type: SET_NEED_CONSULTATION, consultation: data}
+}
+
+export function setDiagnosisActionCreator(data){
+    return {type: SET_DIAGNOSIS, diagnosis: data}
+}
+
+export function setConclusionActionCreator(data){
+    return {type: SET_CONCLUSION, data: data}
+}
+
+export function setNextVisitDateActionCreator(data){
+    return {type: SET_NEXT_VISIT_DATE, nextVisitDate: data}
+}
+
+export function setDeathDateActionCreator(data){
+    return {type: SET_DEATH_DATE, deathDate: data}
 }
 
 export function setPrevInspectionsListThunkCreator(pacientId, request) {
