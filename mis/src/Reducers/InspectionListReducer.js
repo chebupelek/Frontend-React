@@ -1,6 +1,6 @@
 import { inspectionsApi } from "../Api/inspectionApi";
 
-const SET_INSPECTIONS = "SET_PATIENTS";
+const SET_INSPECTIONS = "SET_INSPECTIONS";
 
 let initialInspectionsListState = {
     inspections: [

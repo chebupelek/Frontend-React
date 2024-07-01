@@ -10,6 +10,7 @@ import patientReducer from '../Reducers/PatientReducer';
 import inspectionsListReducer from '../Reducers/InspectionListReducer';
 import createInspectionReducer from '../Reducers/CreateInspectionReducer';
 import inspectionDetailsReducer from '../Reducers/InspectionDetailsReducer';
+import consultationsListReducer from '../Reducers/ConsultationReducer';
 
 let reducers = combineReducers({
     header: headerReducer,
@@ -20,7 +21,8 @@ let reducers = combineReducers({
     mkb : mkbReducer,
     inspectionsList : inspectionsListReducer,
     createInspection : createInspectionReducer,
-    inspectionDetails : inspectionDetailsReducer
+    inspectionDetails : inspectionDetailsReducer,
+    consultationsList : consultationsListReducer
 });
 
 let store = createStore(reducers, applyMiddleware(thunk));

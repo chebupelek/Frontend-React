@@ -1,12 +1,11 @@
 import { Card, Col, Row, Button, Space } from "antd";
-import { FormOutlined, SearchOutlined, PlusOutlined, MinusOutlined, DownOutlined } from "@ant-design/icons";
+import { SearchOutlined, PlusOutlined, MinusOutlined, DownOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { getInspectionsChildsThunkCreator } from "../../Reducers/InspectionListReducer";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setPrevInspectionNameActionCreator, setPrevInspectionFromSelectActionCreator, clearDataActionCreator } from "../../Reducers/CreateInspectionReducer";
 
-function InspectionGroupedCard(props) {
+function ConsultationGroupedCard(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -42,12 +41,11 @@ function InspectionGroupedCard(props) {
     }, [props.hasChain, props.childList]);
 
     useEffect(() => {
-        
     }, [isOpen]);
 
     const handleLoadChild = async () => {
         try {
-            const result = await dispatch(getInspectionsChildsThunkCreator(props.inspectionId));
+            const result = await dispatch(getInspectionsChildsThunkCreator(props.consultationId));
             setChilds(result);
         } catch (error) {
             console.error("Failed to load child inspections:", error);
@@ -58,16 +56,8 @@ function InspectionGroupedCard(props) {
         setIsOpen(!isOpen);
     }
 
-    const handleInspectionChildCreate = () => {
-        console.log("props", props);
-        dispatch(clearDataActionCreator());
-        dispatch(setPrevInspectionNameActionCreator(`${formatDate(props.createTime)} ${props.diagnosis.code}-${props.diagnosis.name}`));
-        dispatch(setPrevInspectionFromSelectActionCreator(props.patient.id, props.inspectionId, `${formatDate(props.createTime)} ${props.diagnosis.code}-${props.diagnosis.name}`));
-        navigate('/inspection/create');
-    }
-
     return (
-        <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: props.conclusion !== 'Death' ? '#f6f6fb' : '#ffefe8', marginTop: '1%', border: props.isBordered ? "1px solid #dcdcdc" : "none", cursor: 'pointer'}}>
+        <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: '#f6f6fb', marginTop: '1%', border: props.isBordered ? "1px solid #dcdcdc" : "none", cursor: 'pointer'}}>
             <Row justify="space-between" align="middle">
                 <Col>
                     <Space direction="horizontal" size="small">
@@ -78,8 +68,7 @@ function InspectionGroupedCard(props) {
                 </Col>
                 <Col>
                     <Space direction="horizontal" size="small">
-                        {props.conclusion !== 'Death' && !props.hasNested && (<Button type="link" style={{ color: "#317dba" }} onClick={handleInspectionChildCreate}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
-                        <Button type="link" style={{ color: "#317dba" }} onClick={() => navigate(`/inspection/${props.inspectionId}`)}><strong><SearchOutlined /> Детали осмотра</strong></Button>
+                        <Button type="link" style={{ color: "#317dba" }} onClick={() => navigate(`/inspection/${props.consultationId}`)}><strong><SearchOutlined /> Детали осмотра</strong></Button>
                     </Space>
                 </Col>
             </Row>
@@ -95,13 +84,13 @@ function InspectionGroupedCard(props) {
             {childs && childs[0] && isOpen ? (
                 <Row>
                     {props.num <= 3 ? <DownOutlined  /> : <></>}
-                    <InspectionGroupedCard
+                    <ConsultationGroupedCard
                             isBordered={true}
                             conclusion={childs[0].conclusion}
                             createTime={childs[0].createTime}
                             diagnosis={childs[0].diagnosis}
                             doctor={childs[0].doctor}
-                            inspectionId={childs[0].id}
+                            consultaionId={childs[0].id}
                             hasChain={childs[0].hasChain}
                             hasNested={childs[0].hasNested}
                             childList={childs.slice(1)}
@@ -114,4 +103,4 @@ function InspectionGroupedCard(props) {
     );
 }
 
-export default InspectionGroupedCard;
+export default ConsultationGroupedCard;

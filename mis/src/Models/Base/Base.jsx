@@ -9,6 +9,7 @@ import Patients from '../Pacients/patients';
 import MedicalCard from '../Medicalcard/medicalCard';
 import CreateInspection from '../CreateInspection/createInspection';
 import InspectionDetails from '../InspectionDetails/inspectionDetails';
+import ConsultationsList from '../Consultation/consultationsList';
 
 function Base() {
     const location = useLocation();
@@ -29,6 +30,7 @@ function Base() {
                 <Route path="/patient/:id" element={<MedicalCard />} />
                 <Route path='/inspection/create' element={<CreateInspection />} />
                 <Route path='/inspection/:id' element={<InspectionDetails />} />
+                <Route path='/consultation' element={<ConsultationsList />} />
             </Routes>
         </Layout.Content>
     );

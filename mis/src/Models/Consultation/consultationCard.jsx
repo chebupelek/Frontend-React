@@ -1,12 +1,8 @@
 import { Card, Col, Row, Button, Space } from "antd";
-import { FormOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
 
-import { setPrevInspectionNameActionCreator, setPrevInspectionDataActionCreator, clearDataActionCreator, setPrevInspectionFromSelectActionCreator } from "../../Reducers/CreateInspectionReducer";
-
-function InspectionCard(props) {
-    const dispatch = useDispatch();
+function ConsultationCard(props) {
     const navigate = useNavigate();
 
     const translateConclusion = (conclusion) => {
@@ -27,16 +23,8 @@ function InspectionCard(props) {
         return date.toLocaleDateString('ru-RU');
     }
 
-    const handleInspectionChildCreate = () => {
-        
-        dispatch(clearDataActionCreator());
-        dispatch(setPrevInspectionNameActionCreator(`${formatDate(props.createTime)} ${props.diagnosis.code}-${props.diagnosis.name}`));
-        dispatch(setPrevInspectionFromSelectActionCreator(props.patient.id, props.inspectionId, `${formatDate(props.createTime)} ${props.diagnosis.code}-${props.diagnosis.name}`));
-        navigate('/inspection/create');
-    }
-
     return (
-        <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: props.conclusion !== 'Death' ? '#f6f6fb' : '#ffefe8', marginTop: '1%', cursor: 'pointer'}}>
+        <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: '#f6f6fb', marginTop: '1%', cursor: 'pointer'}}>
             <Row justify="space-between" align="middle">
                 <Col>
                     <Space direction="horizontal" size="small">
@@ -46,8 +34,7 @@ function InspectionCard(props) {
                 </Col>
                 <Col>
                     <Space direction="horizontal" size="small">
-                        {props.conclusion !== 'Death' && !props.hasNested && (<Button type="link" style={{ color: "#317dba" }} onClick={handleInspectionChildCreate}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
-                        <Button type="link" style={{ color: "#317dba" }} onClick={() => navigate(`/inspection/${props.inspectionId}`)}><strong><SearchOutlined /> Детали осмотра</strong></Button>
+                        <Button type="link" style={{ color: "#317dba" }} onClick={() => navigate(`/inspection/${props.consultationId}`)}><strong><SearchOutlined /> Детали осмотра</strong></Button>
                     </Space>
                 </Col>
             </Row>
@@ -64,4 +51,4 @@ function InspectionCard(props) {
     );
 }
 
-export default InspectionCard;
+export default ConsultationCard;

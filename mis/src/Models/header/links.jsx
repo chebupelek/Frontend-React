@@ -10,7 +10,7 @@ function Links() {
             {(stateLog) ? (
                 <Space direction='horizontal' size={'large'}>
                     <Link to="/patients" style={{ color: 'white'}}>Пациенты</Link>
-                    <Link to="/" style={{ color: 'white'}}>Консультации</Link>
+                    <Link to="/consultation" style={{ color: 'white'}}>Консультации</Link>
                     <Link to="/" style={{ color: 'white' }}>Отчеты и статистика</Link>
                 </Space>
             ) : (
