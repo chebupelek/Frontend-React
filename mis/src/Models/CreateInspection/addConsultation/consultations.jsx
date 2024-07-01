@@ -21,13 +21,10 @@ function Consultations(){
     }, [dispatch]);
 
     const handleSpecialtyChange = (id, name) => {
-        console.log("id", id);
-        console.log("name", name);
         setSelectedSpec({value: id, label: name});
     };
 
     const handleAddConsultation = () => {
-        console.log(selectedSpec);
         dispatch(setConsultationActionCreator({
             specialtyId: selectedSpec.value,
             specialtyName: selectedSpec.label,

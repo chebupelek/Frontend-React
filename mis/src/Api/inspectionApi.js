@@ -112,8 +112,6 @@ function getPrevInspectionsList(pacientId, request, navigate){
 }
 
 function createInspection(patientId, data){
-    console.log(data);
-    console.log(routers.patients+`/${patientId}/inspections`);
     return fetch(routers.patients+`/${patientId}/inspections`, {
         method: "POST",
         headers: {
@@ -233,7 +231,6 @@ function postComments(id, data, navigate){
 }
 
 function editComments(id, data, navigate){
-    console.log("routers.consultation+`/comment/${id}`", routers.consultation+`/comment/${id}`);
     return fetch(routers.consultation+`/comment/${id}`, {
         method: "PUT",
         headers: {

@@ -88,12 +88,10 @@ export function setNameThunkCreator(navigate) {
 }
 
 export function logoutThunkCreator(navigate) {
-    console.log("logout Thunk");
     return (dispatch) => {
         return logoutApi.logout()
             .then(response => {
                 if(response !== null){
-                    console.log("logout good");
                     localStorage.clear();
                     dispatch(logoutActionCreator());
                     navigate("/login");

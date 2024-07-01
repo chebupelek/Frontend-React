@@ -1,7 +1,6 @@
 import routers from "../Router/routers";
 
 function specialties(name) {
-    console.log("name", name);
     return fetch(routers.specialties+`?name=${name}&page=1&size=10`, {
         method: "GET",
         headers: {
@@ -15,7 +14,6 @@ function specialties(name) {
         }
         return response.json();
     }).then(data => {
-        console.log(data);
         return data.specialties;
     }).catch(error => {
         console.log(error.message);

@@ -38,7 +38,6 @@ function ProfileMenu() {
     }, [isAuth, dispatch]);
 
     const handleLogout = () => {
-        console.log("logout handle");
         dispatch(logoutThunkCreator(navigate));
     }
     

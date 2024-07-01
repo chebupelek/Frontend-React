@@ -23,7 +23,6 @@ function DiagnosisCard(){
             {diagnosis && 
                 diagnosis.map((diagnos, index) => (
                     <Space direction="vertical" key={index}>
-                        {console.log("diagnosList", diagnos)}
                         <Typography.Title level={4} strong>{diagnos.name}</Typography.Title>
                         <Typography.Text type="secondary" strong>Тип в осмотре: {translateType(diagnos.type)}</Typography.Text>
                         <Typography.Text type="secondary" strong>Расшифровка: {diagnos.description}</Typography.Text>

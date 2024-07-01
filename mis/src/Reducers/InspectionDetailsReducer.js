@@ -91,7 +91,6 @@ const inspectionDetailsReducer = (state = initialInspectionDetailsState, action)
             return newState;
         case SET_ICD:
             newState.diagnoses.push({icd: action.icd, name: action.name});
-            console.log(newState.diagnoses);
             return newState;
         default:
             return newState;
@@ -107,8 +106,6 @@ export function setInspectionCommentsActionCreator(data, index){
 }
 
 export function setIcdActionCreator(name, icd, diagnos){
-    console.log(icd);
-    console.log("diagnos", diagnos);
     return {type: SET_ICD, name: name, icd: icd}
 }
 
@@ -224,7 +221,6 @@ export function editInspectionActionCreator(complaints, anamnesis, recomendation
         }
 
         if (check === false) {
-            console.log(fails);
             alert(fails);
         } else {
             let diagnosesList = [];
@@ -249,8 +245,6 @@ export function editInspectionActionCreator(complaints, anamnesis, recomendation
                     data.deathDate = new Date(deathDate).toISOString();
                     break;
             }
-
-            console.log(data);
             
             return inspectionsApi.editInspection(inspectionDetailsState.inspectionData.id, data)
             .then(response => {

@@ -51,7 +51,6 @@ function ConsultationsList() {
         ].filter(Boolean).join('&');
 
         const consultationsUrl = `?${queryParams}`;
-        console.log(queryParams);
         dispatch(getConsultationsListThunkCreator(consultationsUrl, navigate));
         dispatch(getRootsThunkCreator());
     }, [searchParams, dispatch]);

@@ -40,7 +40,6 @@ function Report(){
     }, []);
 
     useEffect(() => {
-        console.log(data);
         if (data.records.length > 0) {
             const newRecords = data.records.map((record, index) => {
                 const genderTranslation = {

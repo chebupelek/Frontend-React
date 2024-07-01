@@ -59,7 +59,6 @@ function InspectionGroupedCard(props) {
     }
 
     const handleInspectionChildCreate = () => {
-        console.log("props", props);
         dispatch(clearDataActionCreator());
         dispatch(setPrevInspectionNameActionCreator(`${formatDate(props.createTime)} ${props.diagnosis.code}-${props.diagnosis.name}`));
         dispatch(setPrevInspectionFromSelectActionCreator(props.patient.id, props.inspectionId, `${formatDate(props.createTime)} ${props.diagnosis.code}-${props.diagnosis.name}`));

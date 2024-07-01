@@ -321,8 +321,6 @@ export function createInspectionActionCreator(patientId, navigate)
     return (dispatch, getState) => {
         const state = getState();
         const createInspectionState = state.createInspection;
-        console.log(createInspectionState);
-
         let check = true;
         let fails = "";
 
@@ -437,7 +435,6 @@ export function createInspectionActionCreator(patientId, navigate)
         }
 
         if (check === false) {
-            console.log(fails);
             alert(fails);
         } else {
             const data = {
@@ -474,7 +471,6 @@ export function createInspectionActionCreator(patientId, navigate)
 
             return inspectionsApi.createInspection(patientId, data)
             .then(response => {
-                console.log(response);
                 if (response.status === 200) {
                     navigate(`/patient/${patientId}`);
                 } else {

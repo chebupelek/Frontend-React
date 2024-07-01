@@ -49,7 +49,6 @@ function Comment(props) {
             return;
         }
         const result = await dispatch(editCommentThunkCreator(id, {content: content}, navigate));
-        console.log(result);
         if (result === true) {
             setIsRedact(false);
         }
@@ -62,7 +61,6 @@ function Comment(props) {
         }
         const result = await dispatch(postCommentThunkCreator(consultationId, {content: newReplyContent, parentId: id}, navigate));
         if (result) {
-            console.log("result", result);
             let newList = comments;
             newList.push({
                 id: result,

@@ -27,7 +27,6 @@ function AddDiagnosis(){
     const [type, setType] = useState('');
 
     const handleCreateDiagnosis = () => {
-        console.log(selectedDiagnosis);
         dispatch(setNewDiagnosisActionCreator({
             id: selectedDiagnosis.value,
             name: selectedDiagnosis.label,

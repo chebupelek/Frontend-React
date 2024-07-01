@@ -22,7 +22,6 @@ function PreviousInspectionSelect() {
     const handlePrevInspectionChange = (value, label) => {
         dispatch(setPrevInspectionNameActionCreator(label));
         dispatch(setPrevInspectionFromSelectActionCreator(pacient.id, value, label));
-        console.log("prevInspection", prevInspection);
     };
 
     const formatDate = (dateString) => {
