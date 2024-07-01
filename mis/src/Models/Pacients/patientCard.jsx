@@ -25,7 +25,7 @@ function PatientCard(props) {
     };
 
     return (
-        <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: '#f6f6fb', marginTop: '1%'}} onClick={() => handlePatientClick(props.patientId)}>
+        <Card style={{ width: '100%', boxSizing: 'border-box', backgroundColor: '#f6f6fb', marginTop: '1%', cursor: 'pointer'}} onClick={() => handlePatientClick(props.patientId)}>
             <Typography.Title level={4} style={{margin: 0}}>{props.name}</Typography.Title>
             <div>Пол - <strong>{translateGender(props.gender)}</strong></div>
             <div>Дата рождения - <strong>{formatDate(props.birthday)}</strong></div>

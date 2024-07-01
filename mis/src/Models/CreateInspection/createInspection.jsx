@@ -1,44 +1,69 @@
 import { Button, Card, Space, Typography } from "antd";
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
-import ReInxpection from "./reInspection";
-import Complaints from "./complaints";
-import Anamnesis from "./anamnesis";
-import AddConsultation from "./addConsultation";
-import AddDiagnosis from "./createDiagnosis";
-import Conclusion from "./conclusion";
+import ReInxpection from "./reinspection/reInspection";
+import Complaints from "./complaints/complaints";
+import Anamnesis from "./anamnesis/anamnesis";
+import AddConsultation from "./addConsultation/addConsultation";
+import AddDiagnosis from "./addDiagnosis/createDiagnosis";
+import Conclusion from "./conclusion/conclusion";
+import Recomendations from "./recomendations/recomendations";
 
-function CreateInspection(){
-    const navigate = useNavigate;
+import { createInspectionActionCreator } from "../../Reducers/CreateInspectionReducer";
 
-    const pacient = useSelector(state => state.patient.patient);
+function CreateInspection() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const patient = useSelector(state => state.patient.patient);
 
     useEffect(() => {
-        if (!pacient) {
+        if (!patient || !patient.id) {
             navigate('/patients');
         }
-    }, [pacient, navigate]);
+    }, [patient, navigate]);
+
+    const complaintsRef = useRef();
+    const anamnesisRef = useRef();
+    const recomendationsRef = useRef();
+
+    const handleSaveInspection = () => {
+        if (complaintsRef.current) {
+            complaintsRef.current.handleSetNewInspectionComplaints();
+        }
+        if (anamnesisRef.current) {
+            anamnesisRef.current.handleSetNewInspectionAnamnesis();
+        }
+        if (recomendationsRef.current) {
+            recomendationsRef.current.handleSetNewInspectionRecomendations();
+        }
+        dispatch(createInspectionActionCreator(patient.id, navigate));
+    };
+
+    const handleRegistrationNavigation = () => {
+        navigate(`/patient/${patient.id}`);
+    };
 
     return (
-        <div style={{ width: '75%' }}>
-            <Space direction="vertical" size="middle" style={{width: "100%"}}>
+        <div style={{ width: '75%', margin: '0 auto' }}>
+            <Space direction="vertical" size="middle" style={{ width: "100%" }}>
                 <Typography.Title>Создание осмотра</Typography.Title>
-                <ReInxpection/>
-                <Complaints/>
-                <Anamnesis/>
-                <AddConsultation/>
-                <AddDiagnosis/>
-                <Conclusion/>
+                <ReInxpection />
+                <Complaints ref={complaintsRef} />
+                <Anamnesis ref={anamnesisRef} />
+                <AddConsultation />
+                <AddDiagnosis />
+                <Recomendations ref={recomendationsRef} />
+                <Conclusion />
 
-                <Card style={{ width: '100%', boxSizing: 'border-box', alignContent: 'center', justifyContent: 'center'}}>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', marginBottom: '2%' }}>
                     <Space direction="horizontal" size="middle">
-                        <Button type="primary" >Добавnlk;pить диагноз</Button>
-                        <Button type="primary" >mkl; диагноз</Button>
+                        <Button type="primary" style={{backgroundColor: "#317cb9"}} onClick={handleSaveInspection}>Сохранить осмотр</Button>
+                        <Button type="link" style={{ backgroundColor: '#d3d3eb', color: 'white'}} onClick={handleRegistrationNavigation}>Отмена</Button>
                     </Space>
-                </Card>
-
+                </div>
             </Space>
         </div>
     );

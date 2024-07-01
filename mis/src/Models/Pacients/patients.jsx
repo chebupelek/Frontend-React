@@ -94,7 +94,8 @@ function Patients() {
             gender: newPacientGender,
             birthday: newPacientBirthdate.toISOString()
         };
-        dispatch(setNewPacientThunkCreator(newPacientData));
+        const result = dispatch(setNewPacientThunkCreator(newPacientData));
+        if(result) handleCancel();
     };
 
     return (

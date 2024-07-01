@@ -1,13 +1,14 @@
 import { Card, Col, Row, Button, Space } from "antd";
-import { FormOutlined, SearchOutlined, PlusOutlined, MinusOutlined, DownOutlined   } from "@ant-design/icons";
+import { FormOutlined, SearchOutlined, PlusOutlined, MinusOutlined, DownOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { getInspectionsChildsThunkCreator } from "../../Reducers/InspectionListReducer";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setPrevInspectionActionCreator } from "../../Reducers/CreateInspectionReducer";
+import { setPrevInspectionNameActionCreator, setPrevInspectionFromSelectActionCreator, clearDataActionCreator } from "../../Reducers/CreateInspectionReducer";
 
 function InspectionGroupedCard(props) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const translateConclusion = (conclusion) => {
         switch (conclusion) {
@@ -57,10 +58,11 @@ function InspectionGroupedCard(props) {
         setIsOpen(!isOpen);
     }
 
-    const navigate = useNavigate;
-
     const handleInspectionChildCreate = () => {
-        dispatch(setPrevInspectionActionCreator(props.inspectionId, props.createTime, props.diagnosis.code, props.diagnosis.name));
+        console.log("props", props);
+        dispatch(clearDataActionCreator());
+        dispatch(setPrevInspectionNameActionCreator(`${formatDate(props.createTime)} ${props.diagnosis.code}-${props.diagnosis.name}`));
+        dispatch(setPrevInspectionFromSelectActionCreator(props.patient.id, props.inspectionId, `${formatDate(props.createTime)} ${props.diagnosis.code}-${props.diagnosis.name}`));
         navigate('/inspection/create');
     }
 
@@ -77,7 +79,7 @@ function InspectionGroupedCard(props) {
                 <Col>
                     <Space direction="horizontal" size="small">
                         {props.conclusion !== 'Death' && !props.hasNested && (<Button type="link" style={{ color: "#317dba" }} onClick={handleInspectionChildCreate}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
-                        <Button type="link" style={{ color: "#317dba" }}><strong><SearchOutlined /> Детали осмотра</strong></Button>
+                        <Button type="link" style={{ color: "#317dba" }} onClick={() => navigate(`/inspection/${props.inspectionId}`)}><strong><SearchOutlined /> Детали осмотра</strong></Button>
                     </Space>
                 </Col>
             </Row>
@@ -103,6 +105,7 @@ function InspectionGroupedCard(props) {
                             hasChain={childs[0].hasChain}
                             hasNested={childs[0].hasNested}
                             childList={childs.slice(1)}
+                            patient={props.patient}
                             num={props.num + 1}
                         />
                 </Row>

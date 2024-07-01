@@ -73,7 +73,7 @@ export function registrationThunkCreator(data, navigate) {
     };
 }
 
-export function setNameThunkCreator() {
+export function setNameThunkCreator(navigate) {
     return (dispatch) => {
         if (!localStorage.getItem('token')) {
             return null;
@@ -83,6 +83,8 @@ export function setNameThunkCreator() {
                 if(response !== null){
                     dispatch(setNameActionCreator(response.name));
                 }else{
+                    localStorage.clear();
+                    navigate("/login");
                     dispatch(logoutActionCreator());
                 }
             })
@@ -90,10 +92,12 @@ export function setNameThunkCreator() {
 }
 
 export function logoutThunkCreator(navigate) {
+    console.log("logout Thunk");
     return (dispatch) => {
         return logoutApi.logout()
             .then(response => {
                 if(response !== null){
+                    console.log("logout good");
                     localStorage.clear();
                     dispatch(logoutActionCreator());
                     navigate("/login");

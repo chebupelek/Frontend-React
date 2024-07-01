@@ -3,6 +3,7 @@ import { Card, Space, Input, Select, Button, Row, Col, DatePicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfileThunkCreator } from '../../Reducers/ProfileReducer';
 import { setProfileThunkCreator } from '../../Reducers/ProfileReducer';
+import moment from 'moment';
 
 function Profile(){
     const dispatch = useDispatch();
@@ -84,7 +85,7 @@ function Profile(){
                         </Col>
                         <Col span={12}>
                             <span>Дата рождения</span>
-                            <DatePicker style={{ width: '100%' }} value={birthdate} onChange={date => setBirthdate(date)} placeholder="Выберите дату" />
+                            <DatePicker style={{ width: '100%' }} value={birthdate ? moment(birthdate) : null} onChange={date => setBirthdate(date)} placeholder="Выберите дату" />
                         </Col>
                     </Row>
                 </div>

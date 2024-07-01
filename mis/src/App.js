@@ -8,6 +8,7 @@ import store from "./Store/store";
 function App() {
   return (
     <BrowserRouter basename=''>
+      {console.log("render")}
       <Provider store={store}>
         <Header/>
         <Base/>

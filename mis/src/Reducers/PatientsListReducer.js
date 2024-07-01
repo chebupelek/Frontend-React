@@ -51,7 +51,7 @@ export function setNewPacientThunkCreator(data){
     return (dispatch) => {
         return patientsApi.setPacient(data)
             .then(data => {
-                return;
+                return data;
         })
     }
 }

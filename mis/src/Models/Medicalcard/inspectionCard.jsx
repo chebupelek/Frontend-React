@@ -3,10 +3,11 @@ import { FormOutlined, SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 
-import { setPrevInspectionActionCreator } from "../../Reducers/CreateInspectionReducer";
+import { setPrevInspectionNameActionCreator, setPrevInspectionDataActionCreator, clearDataActionCreator, setPrevInspectionFromSelectActionCreator } from "../../Reducers/CreateInspectionReducer";
 
 function InspectionCard(props) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const translateConclusion = (conclusion) => {
         switch (conclusion) {
@@ -26,10 +27,11 @@ function InspectionCard(props) {
         return date.toLocaleDateString('ru-RU');
     }
 
-    const navigate = useNavigate;
-
     const handleInspectionChildCreate = () => {
-        dispatch(setPrevInspectionActionCreator(props.inspectionId, props.createTime, props.diagnosis.code, props.diagnosis.name));
+        
+        dispatch(clearDataActionCreator());
+        dispatch(setPrevInspectionNameActionCreator(`${formatDate(props.createTime)} ${props.diagnosis.code}-${props.diagnosis.name}`));
+        dispatch(setPrevInspectionFromSelectActionCreator(props.patient.id, props.inspectionId, `${formatDate(props.createTime)} ${props.diagnosis.code}-${props.diagnosis.name}`));
         navigate('/inspection/create');
     }
 
@@ -45,7 +47,7 @@ function InspectionCard(props) {
                 <Col>
                     <Space direction="horizontal" size="small">
                         {props.conclusion !== 'Death' && !props.hasNested && (<Button type="link" style={{ color: "#317dba" }} onClick={handleInspectionChildCreate}><strong><FormOutlined/> Добавить осмотр</strong></Button>)}
-                        <Button type="link" style={{ color: "#317dba" }}><strong><SearchOutlined /> Детали осмотра</strong></Button>
+                        <Button type="link" style={{ color: "#317dba" }} onClick={() => navigate(`/inspection/${props.inspectionId}`)}><strong><SearchOutlined /> Детали осмотра</strong></Button>
                     </Space>
                 </Col>
             </Row>

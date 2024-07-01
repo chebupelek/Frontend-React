@@ -13,7 +13,7 @@ function diagnosis(name) {
         }
         return response.json();
     }).then(data => {
-        console.log(data.records);
+        console.log("data", data);
         return data.records;
     }).catch(error => {
         console.log(error.message);

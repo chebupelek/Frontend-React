@@ -32,14 +32,14 @@ function setPacient(body) {
     }).then(response => {
         if(!response.ok){
             alert(response);
-            return null;
+            return false;
         }
-        return response.json();
+        return true;
     }).then(data => {
         return data;
     }).catch(error => {
         console.log(error);
-        return null;
+        return false;
     });
 }
 

@@ -10,6 +10,7 @@ import { getPatientThunkCreator } from "../../Reducers/PatientReducer";
 import InspectionCard from "./inspectionCard";
 import InspectionGroupedCard from "./inspectionGroupedCard";
 import { useNavigate } from "react-router-dom";
+import { clearDataActionCreator } from "../../Reducers/CreateInspectionReducer";
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -87,6 +88,7 @@ function MedicalCard() {
         setSearchParams(searchParams);
     };
     const handleInspectionCreate = () => {
+        dispatch(clearDataActionCreator());
         navigate('/inspection/create');
     }
 
@@ -161,8 +163,9 @@ function MedicalCard() {
                             inspectionId={inspection.id} 
                             hasChain={inspection.hasChain} 
                             hasNested={inspection.hasNested}
+                            patient={pacient}
                             num={1}
-                        /> : <InspectionCard conclusion={inspection.conclusion} createTime={inspection.date} diagnosis={inspection.diagnosis} doctor={inspection.doctor} inspectionId={inspection.id} hasNested={inspection.hasNested}/>}
+                        /> : <InspectionCard conclusion={inspection.conclusion} createTime={inspection.date} diagnosis={inspection.diagnosis} doctor={inspection.doctor} inspectionId={inspection.id} hasNested={inspection.hasNested} patient={pacient}/>}
                     </Col>
                 ))}
             </Row>

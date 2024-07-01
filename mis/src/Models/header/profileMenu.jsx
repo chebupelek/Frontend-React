@@ -33,11 +33,12 @@ function ProfileMenu() {
 
     useEffect(() => {
         if (isAuth) {
-            dispatch(setNameThunkCreator());
+            dispatch(setNameThunkCreator(navigate));
         }
     }, [isAuth, dispatch]);
 
     const handleLogout = () => {
+        console.log("logout handle");
         dispatch(logoutThunkCreator(navigate));
     }
     
