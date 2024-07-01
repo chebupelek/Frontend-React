@@ -11,7 +11,7 @@ function Links() {
                 <Space direction='horizontal' size={'large'}>
                     <Link to="/patients" style={{ color: 'white'}}>Пациенты</Link>
                     <Link to="/consultation" style={{ color: 'white'}}>Консультации</Link>
-                    <Link to="/" style={{ color: 'white' }}>Отчеты и статистика</Link>
+                    <Link to="/reports" style={{ color: 'white' }}>Отчеты и статистика</Link>
                 </Space>
             ) : (
                 <></>

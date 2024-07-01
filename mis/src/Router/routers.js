@@ -9,6 +9,7 @@ const routers = {
     mkb: `${base}/api/dictionary/icd10`,
     mkbRoots: `${base}/api/dictionary/icd10/roots`,
     inspection: `${base}/api/inspection`,
-    consultation: `${base}/api/consultation`
+    consultation: `${base}/api/consultation`,
+    report: `${base}/api/report/icdrootsreport`
 };
 export default routers;

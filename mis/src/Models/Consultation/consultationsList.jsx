@@ -84,7 +84,7 @@ function ConsultationsList() {
                         <Row gutter={16} align="middle">
                             <Col span={12}>
                                 <span>МКБ-10</span>
-                                 <Select mode="multiple" style={{ width: '100%' }} showSearch value={mkbRoots} defaultActiveFirstOption={false} optionFilterProp="label" onChange={handleRootsChange} notFoundContent={null} options={(roots || []).map((d) => ({
+                                <Select mode="multiple" style={{ width: '100%' }} showSearch value={mkbRoots} defaultActiveFirstOption={false} optionFilterProp="label" onChange={handleRootsChange} notFoundContent={null} options={(roots || []).map((d) => ({
                                     value: d.id,
                                     label: d.name,
                                 }))}/>

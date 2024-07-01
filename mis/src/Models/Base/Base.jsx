@@ -10,6 +10,7 @@ import MedicalCard from '../Medicalcard/medicalCard';
 import CreateInspection from '../CreateInspection/createInspection';
 import InspectionDetails from '../InspectionDetails/inspectionDetails';
 import ConsultationsList from '../Consultation/consultationsList';
+import Report from '../Report/report';
 
 function Base() {
     const location = useLocation();
@@ -31,6 +32,7 @@ function Base() {
                 <Route path='/inspection/create' element={<CreateInspection />} />
                 <Route path='/inspection/:id' element={<InspectionDetails />} />
                 <Route path='/consultation' element={<ConsultationsList />} />
+                <Route path='/reports' element={<Report/>}/>
             </Routes>
         </Layout.Content>
     );

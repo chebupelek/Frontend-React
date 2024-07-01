@@ -106,7 +106,7 @@ export function logoutThunkCreator(navigate) {
     };
 }
 
-export function logoutHeaderActionCreator(data){
+export function logoutHeaderActionCreator(){
     return {type: LOGOUT}
 }
 

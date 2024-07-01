@@ -11,6 +11,7 @@ import inspectionsListReducer from '../Reducers/InspectionListReducer';
 import createInspectionReducer from '../Reducers/CreateInspectionReducer';
 import inspectionDetailsReducer from '../Reducers/InspectionDetailsReducer';
 import consultationsListReducer from '../Reducers/ConsultationReducer';
+import reportReducer from '../Reducers/ReportReducer';
 
 let reducers = combineReducers({
     header: headerReducer,
@@ -22,7 +23,8 @@ let reducers = combineReducers({
     inspectionsList : inspectionsListReducer,
     createInspection : createInspectionReducer,
     inspectionDetails : inspectionDetailsReducer,
-    consultationsList : consultationsListReducer
+    consultationsList : consultationsListReducer,
+    report : reportReducer
 });
 
 let store = createStore(reducers, applyMiddleware(thunk));
