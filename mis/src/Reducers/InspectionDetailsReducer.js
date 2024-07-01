@@ -114,7 +114,7 @@ export function setIcdActionCreator(name, icd, diagnos){
 
 export function setInspectionDataThunkCreator(id, navigate) {
     return (dispatch) => {
-        return inspectionsApi.getFullInspection(id)
+        return inspectionsApi.getFullInspection(id, navigate)
             .then(data => {
                 if (!data) {
                     return;
@@ -139,7 +139,7 @@ export function getIcdIdsThunkCreator(diagnoses){
 
 export function getInspectionCommentsThunkCreator(id, index, navigate) {
     return (dispatch) => {
-        return inspectionsApi.getInspectionComments(id)
+        return inspectionsApi.getInspectionComments(id, navigate)
             .then(data => {
                 if (!data) {
                     return;
@@ -151,7 +151,7 @@ export function getInspectionCommentsThunkCreator(id, index, navigate) {
 
 export function postCommentThunkCreator(id, data,  navigate) {
     return (dispatch) => {
-        return inspectionsApi.postComments(id, data)
+        return inspectionsApi.postComments(id, data, navigate)
             .then(data => {
                 if (!data) {
                     return null;
@@ -163,7 +163,7 @@ export function postCommentThunkCreator(id, data,  navigate) {
 
 export function editCommentThunkCreator(id, data, navigate) {
     return (dispatch) => {
-        return inspectionsApi.editComments(id, data)
+        return inspectionsApi.editComments(id, data, navigate)
             .then(data => {
                 if (!data) {
                     return;

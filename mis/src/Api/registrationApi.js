@@ -9,8 +9,16 @@ function registration(body) {
         body: JSON.stringify(body)
     }).then(response => {
         if(!response.ok){
-            alert(response);
-            return null;
+            if (response.status === 400) {
+                alert('Invalid arguments for filtration/pagination');
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return response.json();
     }).then(data => {

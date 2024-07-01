@@ -27,9 +27,9 @@ export function setPatientActionCreator(data){
     return {type: SET_PATIENT, patient: data}
 }
 
-export function getPatientThunkCreator(id) {
+export function getPatientThunkCreator(id, navigate) {
     return (dispatch) => {
-        return patientsApi.getPatient(id)
+        return patientsApi.getPatient(id, navigate)
             .then(data => {
                 if (!data) {
                     return;

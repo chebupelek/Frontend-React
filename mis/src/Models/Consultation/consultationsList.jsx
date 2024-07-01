@@ -2,14 +2,14 @@ import { Button, Col, Row, Card, Select, Space, Pagination, Radio  } from "antd"
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRootsThunkCreator } from "../../Reducers/MkbReducer";
-import { useSearchParams, useParams } from "react-router-dom";
+import { useSearchParams, useParams, useNavigate } from "react-router-dom";
 import { getConsultationsListThunkCreator } from "../../Reducers/ConsultationReducer";
-import { getPatientThunkCreator } from "../../Reducers/PatientReducer";
 import ConsultationCard from "./consultationCard";
 import ConsultationGroupedCard from "./consultaionGroupedCard";
 
 function ConsultationsList() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
 
     const roots = useSelector(state => state.mkb.roots);
@@ -52,7 +52,7 @@ function ConsultationsList() {
 
         const consultationsUrl = `?${queryParams}`;
         console.log(queryParams);
-        dispatch(getConsultationsListThunkCreator(consultationsUrl));
+        dispatch(getConsultationsListThunkCreator(consultationsUrl, navigate));
         dispatch(getRootsThunkCreator());
     }, [searchParams, dispatch]);
 

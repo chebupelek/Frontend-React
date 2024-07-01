@@ -49,9 +49,9 @@ export function getPatientsListActionCreator(data){
     return {type: SET_INSPECTIONS, inspections: data.inspections, pagination: data.pagination}
 }
 
-export function getInspectionsListThunkCreator(queryParams) {
+export function getInspectionsListThunkCreator(queryParams, navigate) {
     return (dispatch) => {
-        return inspectionsApi.getInspectionsList(queryParams)
+        return inspectionsApi.getInspectionsList(queryParams, navigate)
             .then(data => {
                 if (!data) {
                     return;
@@ -61,9 +61,9 @@ export function getInspectionsListThunkCreator(queryParams) {
     }
 }
 
-export function getInspectionsChildsThunkCreator(id) {
+export function getInspectionsChildsThunkCreator(id, navigate) {
     return (dispatch) => {
-        return inspectionsApi.getInspectionsChilds(id)
+        return inspectionsApi.getInspectionsChilds(id, navigate)
             .then(data => {
                 if (!data) {
                     return;

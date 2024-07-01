@@ -115,15 +115,12 @@ const createInspectionReducer = (state = initialCreateInspectionState, action) =
         case SET_PEVIOUS_ISPECTION_NAME:
             newState.prevInspectionData.isAgain = true;
             newState.prevInspectionData.previousInspectionName = action.previousInspectionName;
-            console.log("newState.prevInspectionData.previousInspectionName", newState.prevInspectionData.previousInspectionName);
             return newState;
         case SET_PEVIOUS_ISPECTION_DATA:
             newState.prevInspectionData.isAgain = true;
             newState.prevInspectionData.previousInspectionId = action.previousInspectionId;
             newState.prevInspectionData.previousInspectionDate = action.previousInspectionDate;
             newState.prevInspectionData.previousInspectionDiagnosis = action.previousInspectionDiagnosis;
-            console.log("newState.prevInspectionData.previousInspectionId", newState.prevInspectionData.previousInspectionId);
-            console.log("newState.prevInspectionData.previousInspectionDiagnosis", newState.prevInspectionData.previousInspectionDiagnosis);
             newState.prevInspectionData.prevInspectionStatus = true;
             newState.newInspectionData.diagnosis.push({
                 id: action.icdId,
@@ -219,16 +216,13 @@ export function setPrevInspectionNameActionCreator(name){
 }
 
 export function setPrevInspectionDataActionCreator(id, diagnosis, date, icd){
-    console.log("diagnosis", diagnosis);
-    console.log("icd", icd);
-    console.log("date", date);
     return {type: SET_PEVIOUS_ISPECTION_DATA, previousInspectionId: id, previousInspectionDiagnosis: diagnosis, previousInspectionDate: date, icdId: icd}
 }
 
-export function setPrevInspectionFromSelectActionCreator(pacientId, id, label) {
+export function setPrevInspectionFromSelectActionCreator(pacientId, id, label, navigate) {
     return async (dispatch, getState) => {
         const name = label.substring(label.lastIndexOf('-') + 1).trim();
-        const list = await dispatch(getPrevInspectionsWithIdThunkCreator(pacientId, name));
+        const list = await dispatch(getPrevInspectionsWithIdThunkCreator(pacientId, name, navigate));
         if (!list) {
             return;
         }
@@ -298,9 +292,9 @@ export function anamnesisProblemActionCreator(){
 export function recomendationsProblemActionCreator(){
     return {type: RECOMENDATIONS_PROBLEM}}
 
-export function setPrevInspectionsListThunkCreator(pacientId, request) {
+export function setPrevInspectionsListThunkCreator(pacientId, request, navigate) {
     return (dispatch) => {
-        return inspectionsApi.getPrevInspectionsList(pacientId, request)
+        return inspectionsApi.getPrevInspectionsList(pacientId, request, navigate)
             .then(data => {
                 if (!data) {
                     return;
@@ -310,9 +304,9 @@ export function setPrevInspectionsListThunkCreator(pacientId, request) {
     }
 }
 
-export function getPrevInspectionsWithIdThunkCreator(pacientId, request) {
+export function getPrevInspectionsWithIdThunkCreator(pacientId, request, navigate) {
     return (dispatch) => {
-        return inspectionsApi.getPrevInspectionsList(pacientId, request)
+        return inspectionsApi.getPrevInspectionsList(pacientId, request, navigate)
             .then(data => {
                 if (!data) {
                     return null;
@@ -482,9 +476,7 @@ export function createInspectionActionCreator(patientId, navigate)
             .then(response => {
                 console.log(response);
                 if (response.status === 200) {
-                    const inspectionId = response.data;
-                    console.log(response.data);
-                    navigate(`/inspection/${inspectionId}`);
+                    navigate(`/patient/${patientId}`);
                 } else {
                     throw new Error(response);
                 }

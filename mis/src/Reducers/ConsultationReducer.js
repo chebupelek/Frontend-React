@@ -49,9 +49,9 @@ export function getConsultationsListActionCreator(data){
     return {type: SET_CONSULTATION, inspections: data.inspections, pagination: data.pagination}
 }
 
-export function getConsultationsListThunkCreator(queryParams) {
+export function getConsultationsListThunkCreator(queryParams, navigate) {
     return (dispatch) => {
-        return consultationsApi.getConsultationsList(queryParams)
+        return consultationsApi.getConsultationsList(queryParams, navigate)
             .then(data => {
                 if (!data) {
                     return;

@@ -4,9 +4,11 @@ import { editCommentThunkCreator, postCommentThunkCreator } from '../../Reducers
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 function Comment(props) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [id, setId] = useState(props.id);
     const [createTime, setCreateTime] = useState(props.createTime);
@@ -46,7 +48,7 @@ function Comment(props) {
             alert('Комментарий должен быть длиной от 1 до 1000 символов.');
             return;
         }
-        const result = await dispatch(editCommentThunkCreator(id, {content: content}));
+        const result = await dispatch(editCommentThunkCreator(id, {content: content}, navigate));
         console.log(result);
         if (result === true) {
             setIsRedact(false);
@@ -58,7 +60,7 @@ function Comment(props) {
             alert('Ответ должен быть длиной от 1 до 1000 символов.');
             return;
         }
-        const result = await dispatch(postCommentThunkCreator(consultationId, {content: newReplyContent, parentId: id}));
+        const result = await dispatch(postCommentThunkCreator(consultationId, {content: newReplyContent, parentId: id}, navigate));
         if (result) {
             console.log("result", result);
             let newList = comments;

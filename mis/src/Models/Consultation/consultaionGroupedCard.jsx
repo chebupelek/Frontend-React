@@ -45,7 +45,7 @@ function ConsultationGroupedCard(props) {
 
     const handleLoadChild = async () => {
         try {
-            const result = await dispatch(getInspectionsChildsThunkCreator(props.consultationId));
+            const result = await dispatch(getInspectionsChildsThunkCreator(props.consultationId, navigate));
             setChilds(result);
         } catch (error) {
             console.error("Failed to load child inspections:", error);

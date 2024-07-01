@@ -1,27 +1,45 @@
 import routers from "../Router/routers";
 
-function getInspectionsList(queryParams){
-    return fetch(routers.patients+'/'+queryParams, {
+function getInspectionsList(queryParams, navigate) {
+    return fetch(routers.patients + '/' + queryParams, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
-    }).then(response => {
-        if(!response.ok){
-            alert(response);
-            return null;
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 400) {
+                alert('Invalid arguments for filtration/pagination');
+                return null;
+            } else if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+                return null;
+            } else if (response.status === 404) {
+                alert('Not Found');
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return response.json();
-    }).then(data =>{
+    })
+    .then(data => {
         return data;
-    }).catch(error=>{
-        console.log(error.message);
+    })
+    .catch(error => {
+        console.error('Error fetching inspections:', error.message);
         return null;
     });
 }
 
-function getInspectionsChilds(id){
+function getInspectionsChilds(id, navigate){
     return fetch(routers.inspection+`/${id}/chain`, {
         method: "GET",
         headers: {
@@ -30,8 +48,23 @@ function getInspectionsChilds(id){
         }
     }).then(response => {
         if(!response.ok){
-            alert(response);
-            return null;
+            if (response.status === 400) {
+                alert('Invalid arguments for filtration/pagination');
+                return null;
+            } else if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+                return null;
+            } else if (response.status === 404) {
+                alert('Not Found');
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return response.json();
     }).then(data =>{
@@ -42,7 +75,7 @@ function getInspectionsChilds(id){
     });
 }
 
-function getPrevInspectionsList(pacientId, request){
+function getPrevInspectionsList(pacientId, request, navigate){
     return fetch(routers.patients+`/${pacientId}/inspections/search?request=${request}`, {
         method: "GET",
         headers: {
@@ -51,8 +84,23 @@ function getPrevInspectionsList(pacientId, request){
         }
     }).then(response => {
         if(!response.ok){
-            alert(response);
-            return null;
+            if (response.status === 400) {
+                alert('Invalid arguments for filtration/pagination');
+                return null;
+            } else if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+                return null;
+            } else if (response.status === 404) {
+                alert('Not Found');
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return response.json();
     }).then(data =>{
@@ -81,7 +129,7 @@ function createInspection(patientId, data){
     });
 }
 
-function getFullInspection(id){
+function getFullInspection(id, navigate){
     return fetch(routers.inspection+`/${id}`, {
         method: "GET",
         headers: {
@@ -90,8 +138,20 @@ function getFullInspection(id){
         }
     }).then(response => {
         if(!response.ok){
-            alert(response);
-            return null;
+            if (response.status === 400) {
+                alert('Invalid arguments for filtration/pagination');
+                return null;
+            } else if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return response.json();
     }).then(data =>{
@@ -102,7 +162,7 @@ function getFullInspection(id){
     });
 }
 
-function getInspectionComments(id){
+function getInspectionComments(id, navigate){
     return fetch(routers.consultation+`/${id}`, {
         method: "GET",
         headers: {
@@ -111,8 +171,20 @@ function getInspectionComments(id){
         }
     }).then(response => {
         if(!response.ok){
-            alert(response);
-            return null;
+            if (response.status === 400) {
+                alert('Invalid arguments for filtration/pagination');
+                return null;
+            } else if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return response.json();
     }).then(data =>{
@@ -123,7 +195,7 @@ function getInspectionComments(id){
     });
 }
 
-function postComments(id, data){
+function postComments(id, data, navigate){
     return fetch(routers.consultation+`/${id}/comment`, {
         method: "POST",
         headers: {
@@ -133,10 +205,23 @@ function postComments(id, data){
         body: JSON.stringify(data)
     }).then(response => {
         if (!response.ok) {
-            return response.json().then(errorData => {
-                alert(errorData.message);
+            if (response.status === 400) {
+                alert('Invalid arguments for filtration/pagination');
                 return null;
-            });
+            } else if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+                return null;
+            } else if (response.status === 404) {
+                alert('Not Found');
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return true;
     }).then(data =>{
@@ -147,7 +232,7 @@ function postComments(id, data){
     });
 }
 
-function editComments(id, data){
+function editComments(id, data, navigate){
     console.log("routers.consultation+`/comment/${id}`", routers.consultation+`/comment/${id}`);
     return fetch(routers.consultation+`/comment/${id}`, {
         method: "PUT",
@@ -158,8 +243,23 @@ function editComments(id, data){
         body: JSON.stringify(data)
     }).then(response => {
         if(!response.ok){
-            alert(response);
-            return null;
+            if (response.status === 400) {
+                alert('Invalid arguments for filtration/pagination');
+                return null;
+            } else if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+                return null;
+            } else if (response.status === 404) {
+                alert('Not Found');
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return true;
     }).then(data =>{

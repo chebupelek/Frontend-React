@@ -25,9 +25,9 @@ export function getReportActionCreator(data){
     return {type: SET_REPORT, data: data}
 }
 
-export function getReportThunkCreator(queryString) {
+export function getReportThunkCreator(queryString, navigate) {
     return (dispatch) => {
-        return reportApi.report(queryString)
+        return reportApi.report(queryString, navigate)
             .then(data => {
                 if (!data) {
                     return;

@@ -4,11 +4,12 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPatientsListThunkCreator } from "../../Reducers/PatientsListReducer";
 import { setNewPacientThunkCreator } from "../../Reducers/PatientsListReducer";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import PatientCard from "./patientCard";
 
 function Patients() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const patients = useSelector(state => state.patients.patients)  || [];
     const pagination = useSelector(state => state.patients.pagination);
 
@@ -48,7 +49,7 @@ function Patients() {
             `page=${pageParam}`,
             `size=${sizeParam}`
         ].filter(Boolean).join('&');
-        dispatch(getPatientsListThunkCreator(queryParams));
+        dispatch(getPatientsListThunkCreator(queryParams, navigate));
     }, [searchParams, dispatch]);
 
     const handleSearch = () => {
@@ -94,7 +95,7 @@ function Patients() {
             gender: newPacientGender,
             birthday: newPacientBirthdate.toISOString()
         };
-        const result = dispatch(setNewPacientThunkCreator(newPacientData));
+        const result = dispatch(setNewPacientThunkCreator(newPacientData, navigate));
         if(result) handleCancel();
     };
 

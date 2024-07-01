@@ -31,9 +31,9 @@ export function getProfileActionCreator(data){
     return {type: SET_PROFILE, profile: data}
 }
 
-export function getProfileThunkCreator() {
+export function getProfileThunkCreator(navigate) {
     return (dispatch) => {
-        return profileApi.getProfile()
+        return profileApi.getProfile(navigate)
             .then(data => {
                 if (!data) {
                     return;
@@ -43,9 +43,9 @@ export function getProfileThunkCreator() {
     }
 }
 
-export function setProfileThunkCreator(data) {
+export function setProfileThunkCreator(data, navigate) {
     return (dispatch) => {
-        return profileApi.setProfile(data)
+        return profileApi.setProfile(data, navigate)
             .then(data => {
                 if (!data) {
                     return;

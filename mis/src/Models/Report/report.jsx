@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getReportThunkCreator } from '../../Reducers/ReportReducer';
 import { getRootsThunkCreator } from "../../Reducers/MkbReducer";
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 function Report(){ 
     const dispatch = useDispatch(); 
+    const navigate = useNavigate();
     const data = useSelector(state =>state.report.data);
     const [records, setRecords] = useState();
     const [columns, setColumns] = useState();
@@ -94,7 +96,7 @@ function Report(){
             `end=${(moment(finish, 'DD.MM.YYYY')).toISOString()}`,
             ...mkbRoots.map(root => `icdRoots=${root}`),
         ].filter(Boolean).join('&');
-        dispatch(getReportThunkCreator(queryParams));
+        dispatch(getReportThunkCreator(queryParams, navigate));
     };
 
       return (

@@ -3,10 +3,12 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setPrevInspectionsListThunkCreator, setPrevInspectionFromSelectActionCreator, setPrevInspectionNameActionCreator } from "../../../Reducers/CreateInspectionReducer";
+import { useNavigate } from "react-router-dom";
 
 
 function PreviousInspectionSelect() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const pacient = useSelector(state => state.patient.patient);
 
@@ -14,7 +16,7 @@ function PreviousInspectionSelect() {
 
     const prevInspectionList = useSelector(state => state.createInspection.prevInspectionsList);
     const handlePrevInspectionSearch = useCallback((value) => {
-        dispatch(setPrevInspectionsListThunkCreator(pacient.id, value));
+        dispatch(setPrevInspectionsListThunkCreator(pacient.id, value, navigate));
     }, [dispatch, pacient.id]);
 
     const handlePrevInspectionChange = (value, label) => {

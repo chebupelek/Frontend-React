@@ -2,13 +2,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Space, Typography } from "antd";
 import Comment from './comment';
-import { getInspectionCommentsThunkCreator } from '../../Reducers/InspectionDetailsReducer';
 import { inspectionsApi } from '../../Api/inspectionApi';
 
 function Consultation(props) {
-    const dispatch = useDispatch();
     const profile = useSelector(state => state.profile.profile);
-    const [consultationData, setConsultation] = useState(props.consultationData);
     const [comments, setComments] = useState([]);
 
     useEffect(() => {

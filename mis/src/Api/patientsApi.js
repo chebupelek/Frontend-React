@@ -1,6 +1,6 @@
 import routers from "../Router/routers";
 
-function getPatients(queryParams){
+function getPatients(queryParams, navigate){
     return fetch(routers.patients+`?`+queryParams, {
         method: "GET",
         headers: {
@@ -9,8 +9,20 @@ function getPatients(queryParams){
         }
     }).then(response => {
         if(!response.ok){
-            alert(response);
-            return null;
+            if (response.status === 400) {
+                alert('Invalid arguments for filtration/pagination');
+                return null;
+            } else if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return response.json();
     }).then(data =>{
@@ -21,7 +33,7 @@ function getPatients(queryParams){
     });
 }
 
-function setPacient(body) {
+function setPacient(body, navigate) {
     return fetch(routers.patients, {
         method: "POST",
         headers: {
@@ -31,8 +43,20 @@ function setPacient(body) {
         body: JSON.stringify(body)
     }).then(response => {
         if(!response.ok){
-            alert(response);
-            return false;
+            if (response.status === 400) {
+                alert('Invalid arguments for filtration/pagination');
+                return null;
+            } else if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return true;
     }).then(data => {
@@ -43,7 +67,7 @@ function setPacient(body) {
     });
 }
 
-function getPatient(id){
+function getPatient(id, navigate){
     return fetch(routers.patients+`/`+id, {
         method: "GET",
         headers: {
@@ -52,8 +76,20 @@ function getPatient(id){
         }
     }).then(response => {
         if(!response.ok){
-            alert(response);
-            return null;
+            if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+                return null;
+            } else if (response.status === 404) {
+                alert('Not Found');
+                return null;
+            } else if (response.status === 500) {
+                alert('Internal Server Error');
+                return null;
+            } else {
+                alert(`HTTP error! Status: ${response.status}`);
+                return null;
+            }
         }
         return response.json();
     }).then(data =>{

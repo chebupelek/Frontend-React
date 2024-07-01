@@ -51,8 +51,6 @@ export function loginThunkCreator(data, navigate) {
                 if(response !== null){
                     dispatch(loginHeaderActionCreator());
                     navigate("/");
-                }else{
-                    dispatch(logoutActionCreator());
                 }
             })
     };
@@ -66,8 +64,6 @@ export function registrationThunkCreator(data, navigate) {
                 if(response !== null){
                     dispatch(loginHeaderActionCreator());
                     navigate("/");
-                }else{
-                    dispatch(logoutActionCreator());
                 }
             })
     };

@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from "react-router-dom";
 
-import { setInspectionDataThunkCreator, getInspectionCommentsThunkCreator, getIcdIdsThunkCreator } from '../../Reducers/InspectionDetailsReducer';
+import { setInspectionDataThunkCreator, getIcdIdsThunkCreator } from '../../Reducers/InspectionDetailsReducer';
 import { getProfileThunkCreator } from '../../Reducers/ProfileReducer'
 import Consultation from './consultation';
 import InspectionEdit from './modalCard';
@@ -20,13 +20,13 @@ function InspectionDetails() {
         dispatch(setInspectionDataThunkCreator(id,navigate));
         dispatch(getProfileThunkCreator());
         if(inspectionData){
-            dispatch(getIcdIdsThunkCreator(inspectionData.diagnoses));
+            dispatch(getIcdIdsThunkCreator(inspectionData.diagnoses, navigate));
         }
     }, [id]);
 
     useEffect(() => {
         if(inspectionData){
-            dispatch(getIcdIdsThunkCreator(inspectionData.diagnoses));
+            dispatch(getIcdIdsThunkCreator(inspectionData.diagnoses, navigate));
         }
     }, [inspectionData]);
 

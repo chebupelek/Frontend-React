@@ -35,9 +35,9 @@ export function getPatientsListActionCreator(data){
     return {type: SET_PATIENTS, patients: data.patients, pagination: data.pagination}
 }
 
-export function getPatientsListThunkCreator(queryParams) {
+export function getPatientsListThunkCreator(queryParams, navigate) {
     return (dispatch) => {
-        return patientsApi.getPatients(queryParams)
+        return patientsApi.getPatients(queryParams, navigate)
             .then(data => {
                 if (!data) {
                     return;
@@ -47,9 +47,9 @@ export function getPatientsListThunkCreator(queryParams) {
     }
 }
 
-export function setNewPacientThunkCreator(data){
+export function setNewPacientThunkCreator(data, navigate){
     return (dispatch) => {
-        return patientsApi.setPacient(data)
+        return patientsApi.setPacient(data, navigate)
             .then(data => {
                 return data;
         })

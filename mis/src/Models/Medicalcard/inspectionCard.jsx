@@ -3,7 +3,7 @@ import { FormOutlined, SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 
-import { setPrevInspectionNameActionCreator, setPrevInspectionDataActionCreator, clearDataActionCreator, setPrevInspectionFromSelectActionCreator } from "../../Reducers/CreateInspectionReducer";
+import { setPrevInspectionNameActionCreator, clearDataActionCreator, setPrevInspectionFromSelectActionCreator } from "../../Reducers/CreateInspectionReducer";
 
 function InspectionCard(props) {
     const dispatch = useDispatch();

@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProfileThunkCreator } from '../../Reducers/ProfileReducer';
 import { setProfileThunkCreator } from '../../Reducers/ProfileReducer';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 function Profile(){
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(getProfileThunkCreator());
+        dispatch(getProfileThunkCreator(navigate));
     }, []);
 
     const profileData = useSelector(state => state.profile.profile);
@@ -63,7 +65,7 @@ function Profile(){
             }
         }
 
-        dispatch(setProfileThunkCreator(updatedProfile));
+        dispatch(setProfileThunkCreator(updatedProfile, navigate));
     };
 
     return (
